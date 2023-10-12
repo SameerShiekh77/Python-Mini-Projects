@@ -1,0 +1,33 @@
+from PIL import Image
+import webptools
+import os
+
+def optimize_webp(input_path, output_path, target_size,quality):
+    image = Image.open(input_path)
+
+    # Convert the image to WebP format
+    image.save(output_path, format='webp', method=6, quality=75)
+
+    # Check the size of the output image
+    output_size = os.path.getsize(output_path)
+
+    # Keep optimizing until the image is below the target size
+    while output_size > target_size:
+        # Reduce the quality by a step (you can adjust this step as needed)
+        quality -= 5
+
+        # Re-save the image with the reduced quality
+        image.save(output_path, format='webp', method=6, quality=quality)
+
+        # Check the new size
+        output_size = os.path.getsize(output_path)
+
+
+input_directory = "/opt/lampp/htdocs/payformyclass/assets/img/xyz"
+output_directory = "/home/sameer/Desktop/Nexia/webp images/Portfolio"
+quality = 100  # Initial quality setting, adjust as needed
+for filename in os.listdir(input_directory):
+    input_file = os.path.join(input_directory, filename)
+    output_file = os.path.join(output_directory, os.path.splitext(filename)[0] + ".webp")
+    target_size = 6000  # The target size in bytes (10KB)
+    optimize_webp(input_file, output_file, target_size,quality)

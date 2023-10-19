@@ -1,0 +1,26 @@
+import requests
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+
+# Initialize a PDF file
+c = canvas.Canvas("merged_images.pdf", pagesize=letter)
+
+for i in range(1, 101):
+    url = f'https://image.slidesharecdn.com/economicspart1-191221072551/75/bcom-part-1-economics-{i}-2048.jpg?cb=1665710733'
+    r = requests.get(url)
+    
+    if r.status_code == 200:
+        # Save the downloaded image with a unique name
+        image_filename = f'image_{i}.jpg'
+        with open(image_filename, 'wb') as image_file:
+            image_file.write(r.content)
+        
+        # Add the image to the PDF
+        c.drawImage(image_filename, 0, 0, width=letter[0], height=letter[1])
+        c.showPage()
+    
+    print(f"Downloaded image {i}")
+
+# Save and close the PDF
+c.save()
+print("PDF created successfully.")

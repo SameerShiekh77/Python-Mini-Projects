@@ -1,0 +1,1 @@
+ffmpeg -i Academy.mkv -c:v libx264 -c:a aac -strict experimental output_file.mp4

@@ -1,0 +1,17 @@
+deployment_name = ""
+
+import openai
+openai.api_type = "azure"
+openai.api_base = ""
+openai.api_key = ""
+openai.api_version = "2024-02-01"
+
+response = openai.ChatCompletion.create(
+    engine=deployment_name, # engine = "deployment_name".
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "top 5 skills names"},
+    ]
+)
+
+print(response['choices'][0].message['content'])

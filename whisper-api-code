@@ -1,0 +1,27 @@
+import openai
+import os
+openai.api_type = "azure"
+openai.api_base = ""
+openai.api_key = ""
+openai.api_version = "2024-02-01"
+deployment_name = ""
+
+# Function to transcribe audio using OpenAI's Whisper model
+def transcribe_audio(file_path):
+    with open(file_path, 'rb') as audio_file:
+        response = openai.Audio.transcribe(
+            model="whisper-1",
+            
+            file=audio_file,
+            response_format="text"
+        )
+    return response
+
+# Path to your audio file
+audio_file_path = '/Users/muhammadsameer/Desktop/Al Nafi/Al-Nafi-Utilities/audio.mp3'
+
+# Transcribe the audio file
+transcription = transcribe_audio(audio_file_path)
+
+# Print the transcription
+print(transcription)
